@@ -1,9 +1,6 @@
 package org.likelion.likelionassignmentcrud.developer.api.dto.request;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PastOrPresent;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 
@@ -12,6 +9,7 @@ public record DeveloperSaveReqDto(
 
         @NotBlank(message = "이름을 필수로 입력해야 합니다.")
         @Size(min = 1, max = 20, message = "1자 이상 20자 이하로 입력해주세요.")
+        @Pattern(regexp = "^[a-zA-Z0-9]*$", message = "이름은 영문자, 숫자만 포함될 수 있습니다.")
         String name,
 
         @NotBlank(message = "국가는 필수로 입력해야 합니다.")
