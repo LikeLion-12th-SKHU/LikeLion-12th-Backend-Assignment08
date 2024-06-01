@@ -52,7 +52,7 @@ public class LectureController {
     }
 
     // 교수 id에 따라 강의 전체 조회
-    @GetMapping("{professorId}/lectures")
+    @GetMapping("/{professorId}/lectures")
     @ResponseStatus(HttpStatus.OK)
     public BaseResponse<LectureListResDto> myLectureFindAll(@PathVariable("professorId") Long professorId) {
         LectureListResDto lectureListResDto = lectureService.lectureFindProfessor(professorId);
