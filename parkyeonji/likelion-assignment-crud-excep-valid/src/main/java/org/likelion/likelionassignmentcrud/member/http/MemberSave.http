@@ -1,0 +1,8 @@
+POST http://localhost:8080/member/save
+Content-Type: application/json
+
+{
+  "clubId": 1,
+  "name": "박연지",
+  "age": 22
+}
