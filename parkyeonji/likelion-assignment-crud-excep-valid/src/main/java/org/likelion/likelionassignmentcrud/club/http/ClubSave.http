@@ -1,0 +1,8 @@
+POST http://localhost:8080/club/save
+Content-Type: application/json
+
+{
+  "name": "멋쟁이사자처럼",
+  "clubType": "IT",
+  "part": "SERVER"
+}
