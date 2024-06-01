@@ -1,14 +1,15 @@
-package org.likelion.likelionassignmentcrud.shop.application;
+package org.likelion.basic.shop.application;
 
-import org.likelion.likelionassignmentcrud.customer.api.dto.request.CustomerUpdateReqDto;
-import org.likelion.likelionassignmentcrud.customer.domain.Customer;
-import org.likelion.likelionassignmentcrud.customer.domain.repository.CustomerRepository;
-import org.likelion.likelionassignmentcrud.shop.api.dto.request.ShopSaveReqDto;
-import org.likelion.likelionassignmentcrud.shop.api.dto.request.ShopUpdateReqDto;
-import org.likelion.likelionassignmentcrud.shop.api.dto.response.ShopInfoResDto;
-import org.likelion.likelionassignmentcrud.shop.api.dto.response.ShopListResDto;
-import org.likelion.likelionassignmentcrud.shop.domain.Shop;
-import org.likelion.likelionassignmentcrud.shop.domain.repository.ShopRepository;
+import org.likelion.basic.common.error.ErrorCode;
+import org.likelion.basic.common.exception.NotFoundException;
+import org.likelion.basic.customer.domain.Customer;
+import org.likelion.basic.customer.domain.repository.CustomerRepository;
+import org.likelion.basic.shop.api.dto.request.ShopSaveReqDto;
+import org.likelion.basic.shop.api.dto.request.ShopUpdateReqDto;
+import org.likelion.basic.shop.api.dto.response.ShopInfoResDto;
+import org.likelion.basic.shop.api.dto.response.ShopListResDto;
+import org.likelion.basic.shop.domain.Shop;
+import org.likelion.basic.shop.domain.repository.ShopRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,9 +27,10 @@ public class ShopService {
     }
 
     @Transactional
-    public void shopSave(ShopSaveReqDto shopSaveReqDto) {
+    public ShopInfoResDto shopSave(ShopSaveReqDto shopSaveReqDto) {
         Customer customer = customerRepository.findById(shopSaveReqDto.customerId())
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(()-> new NotFoundException(ErrorCode.CUSTOMER_NOT_FOUND_EXCEPTION, ErrorCode.CUSTOMER_NOT_FOUND_EXCEPTION.getMessage()
+                                + shopSaveReqDto.customerId()));
 
         Shop shop = Shop.builder()
                 .title(shopSaveReqDto.title())
@@ -37,12 +39,24 @@ public class ShopService {
                 .build();
 
         shopRepository.save(shop);
+        return ShopInfoResDto.from(shop);
+    }
+
+    public ShopListResDto shopFindAll() {
+        List<Shop> shops = shopRepository.findAll();
+
+        List<ShopInfoResDto> shopInfoResDtoList = shops.stream()
+                .map(ShopInfoResDto::from)
+                .toList();
+
+        return ShopListResDto.from(shopInfoResDtoList);
     }
 
     // 작성자에 따른 게시물 조회
     public ShopListResDto shopFindMember(Long customerId) {
         Customer customer = customerRepository.findById(customerId)
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(()-> new NotFoundException(ErrorCode.CUSTOMER_NOT_FOUND_EXCEPTION, ErrorCode.CUSTOMER_NOT_FOUND_EXCEPTION.getMessage()
+                                + customerId));
 
         List<Shop> shops = shopRepository.findByCustomer(customer);
         List<ShopInfoResDto> shopInfoResDtoList = shops.stream()
@@ -52,17 +66,32 @@ public class ShopService {
         return ShopListResDto.from(shopInfoResDtoList);
     }
 
+    public ShopInfoResDto shopFindById(Long shopId) {
+        Shop shop = shopRepository.findById(shopId)
+                .orElseThrow(()-> new NotFoundException(ErrorCode.SHOP_NOT_FOUND_EXCEPTION, ErrorCode.SHOP_NOT_FOUND_EXCEPTION.getMessage()
+                                + shopId));
+
+        return ShopInfoResDto.from(shop);
+    }
+
+
     @Transactional
-    public void shopUpdate(Long shopId, ShopUpdateReqDto shopUpdateReqDto) {
-        Shop shop = shopRepository.findById(shopId).orElseThrow(IllegalArgumentException::new);
+    public ShopInfoResDto shopUpdate(Long shopId, ShopUpdateReqDto shopUpdateReqDto) {
+        Shop shop = shopRepository.findById(shopId)
+                .orElseThrow(()-> new NotFoundException(ErrorCode.SHOP_NOT_FOUND_EXCEPTION, ErrorCode.SHOP_NOT_FOUND_EXCEPTION.getMessage()
+                               + shopId));
         shop.update(shopUpdateReqDto);
+        return ShopInfoResDto.from(shop);
     }
 
     // delete
     @Transactional
-    public void shopDelete(Long shopId) {
-        Shop shop = shopRepository.findById(shopId).orElseThrow(IllegalArgumentException::new);
+    public ShopInfoResDto shopDelete(Long shopId) {
+        Shop shop = shopRepository.findById(shopId)
+                .orElseThrow(()-> new NotFoundException(ErrorCode.SHOP_NOT_FOUND_EXCEPTION, ErrorCode.SHOP_NOT_FOUND_EXCEPTION.getMessage()
+                                + shopId));
         shopRepository.delete(shop);
+        return ShopInfoResDto.from(shop);
     }
 
 }

@@ -1,7 +1,8 @@
-package org.likelion.likelionassignmentcrud.shop.domain.repository;
+package org.likelion.basic.shop.domain.repository;
 
-import org.likelion.likelionassignmentcrud.customer.domain.Customer;
-import org.likelion.likelionassignmentcrud.shop.domain.Shop;
+
+import org.likelion.basic.customer.domain.Customer;
+import org.likelion.basic.shop.domain.Shop;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

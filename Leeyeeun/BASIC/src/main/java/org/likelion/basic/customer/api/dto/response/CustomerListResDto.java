@@ -1,4 +1,4 @@
-package org.likelion.likelionassignmentcrud.customer.api.dto.response;
+package org.likelion.basic.customer.api.dto.response;
 
 import lombok.Builder;
 

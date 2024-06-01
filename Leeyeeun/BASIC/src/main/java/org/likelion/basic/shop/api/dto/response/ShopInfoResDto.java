@@ -1,7 +1,7 @@
-package org.likelion.likelionassignmentcrud.shop.api.dto.response;
+package org.likelion.basic.shop.api.dto.response;
 
 import lombok.Builder;
-import org.likelion.likelionassignmentcrud.shop.domain.Shop;
+import org.likelion.basic.shop.domain.Shop;
 
 @Builder
 public record ShopInfoResDto(

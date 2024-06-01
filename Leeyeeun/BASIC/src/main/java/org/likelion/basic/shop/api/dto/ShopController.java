@@ -1,9 +1,13 @@
-package org.likelion.likelionassignmentcrud.shop.api.dto;
+package org.likelion.basic.shop.api.dto;
 
-import org.likelion.likelionassignmentcrud.shop.api.dto.request.ShopSaveReqDto;
-import org.likelion.likelionassignmentcrud.shop.api.dto.request.ShopUpdateReqDto;
-import org.likelion.likelionassignmentcrud.shop.api.dto.response.ShopListResDto;
-import org.likelion.likelionassignmentcrud.shop.application.ShopService;
+import jakarta.validation.Valid;
+import org.likelion.basic.common.dto.BaseResponse;
+import org.likelion.basic.common.error.SuccessCode;
+import org.likelion.basic.shop.api.dto.request.ShopSaveReqDto;
+import org.likelion.basic.shop.api.dto.request.ShopUpdateReqDto;
+import org.likelion.basic.shop.api.dto.response.ShopInfoResDto;
+import org.likelion.basic.shop.api.dto.response.ShopListResDto;
+import org.likelion.basic.shop.application.ShopService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,28 +20,46 @@ public class ShopController {
     public ShopController(ShopService shopService) { this.shopService = shopService; }
 
     @PostMapping("/save")
-    public ResponseEntity<String> shopSave(@RequestBody ShopSaveReqDto shopSaveReqDto) {
-        shopService.shopSave(shopSaveReqDto);
-        return new ResponseEntity<>("내용 저장!", HttpStatus.CREATED);
+    @ResponseStatus(HttpStatus.CREATED)
+    public BaseResponse<ShopInfoResDto> shopSave(@RequestBody @Valid ShopSaveReqDto shopSaveReqDto) {
+        ShopInfoResDto shopInfoResDto = shopService.shopSave(shopSaveReqDto);
+        return BaseResponse.success(SuccessCode.SHOP_SAVE_SUCCESS, shopInfoResDto);
+    }
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public BaseResponse<ShopListResDto> shopFindAll() {
+        ShopListResDto shopListResDto = shopService.shopFindAll();
+        return BaseResponse.success(SuccessCode.GET_SUCCESS, shopListResDto);
     }
 
     @GetMapping("/{shopId}")
-    public ResponseEntity<ShopListResDto> myShopFindAll(@PathVariable("shopId") Long customerId) {
+    @ResponseStatus(HttpStatus.OK)
+    public BaseResponse<ShopInfoResDto> shopFindById(@PathVariable("shopId") Long shopId) {
+        ShopInfoResDto shopInfoResDto = shopService.shopFindById(shopId);
+        return BaseResponse.success(SuccessCode.GET_SUCCESS, shopInfoResDto);
+    }
+
+    @GetMapping("/{shopId}/shops")
+    @ResponseStatus(HttpStatus.OK)
+    public BaseResponse<ShopListResDto> myShopFindAll(@PathVariable("shopId") Long customerId) {
         ShopListResDto shopListResDto = shopService.shopFindMember(customerId);
-        return new ResponseEntity<>(shopListResDto, HttpStatus.OK);
+        return BaseResponse.success(SuccessCode.GET_SUCCESS, shopListResDto);
     }
 
     @PatchMapping("/{shopId}")
-    public ResponseEntity<String> shopUpdate(@PathVariable("shopId") Long shopId,
-                                                 @RequestBody ShopUpdateReqDto shopUpdateReqDto) {
-        shopService.shopUpdate(shopId, shopUpdateReqDto);
-        return new ResponseEntity<>("내용 수정", HttpStatus.OK);
+    @ResponseStatus(HttpStatus.OK)
+    public BaseResponse<ShopInfoResDto> shopUpdate(@PathVariable("shopId") Long shopId,
+                                                 @RequestBody @Valid ShopUpdateReqDto shopUpdateReqDto) {
+        ShopInfoResDto shopInfoResDto = shopService.shopUpdate(shopId, shopUpdateReqDto);
+        return BaseResponse.success(SuccessCode.SHOP_UPDATE_SUCCESS, shopInfoResDto);
     }
 
     @DeleteMapping("/{shopId}")
-    public ResponseEntity<String> shopDelete(@PathVariable("shopId") Long shopId) {
-        shopService.shopDelete(shopId);
-        return new ResponseEntity<>("내용 삭제", HttpStatus.OK);
+    @ResponseStatus(HttpStatus.OK)
+    public BaseResponse<ShopInfoResDto> shopDelete(@PathVariable("shopId") Long shopId) {
+        ShopInfoResDto shopInfoResDto = shopService.shopDelete(shopId);
+        return BaseResponse.success(SuccessCode.SHOP_DELETE_SUCCESS, shopInfoResDto);
     }
 
 }

@@ -1,4 +1,4 @@
-package org.likelion.likelionassignmentcrud.customer.domain;
+package org.likelion.basic.customer.domain;
 
 public enum Part {
 

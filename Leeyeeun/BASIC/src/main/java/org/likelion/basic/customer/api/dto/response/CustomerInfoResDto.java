@@ -1,22 +1,24 @@
-package org.likelion.likelionassignmentcrud.customer.api.dto.response;
+package org.likelion.basic.customer.api.dto.response;
 
 import lombok.Builder;
-import org.likelion.likelionassignmentcrud.customer.domain.Customer;
-import org.likelion.likelionassignmentcrud.customer.domain.Part;
+import org.likelion.basic.customer.domain.Customer;
+import org.likelion.basic.customer.domain.Part;
 
 @Builder
 public record CustomerInfoResDto(
 
         String name,
         int age,
+        String email,
         Part part
 ) {
 
-    public static CustomerInfoResDto from(Customer member) {
+    public static CustomerInfoResDto from(Customer customer) {
         return CustomerInfoResDto.builder()
-                .name(member.getName())
-                .age(member.getAge())
-                .part(member.getPart())
+                .name(customer.getName())
+                .age(customer.getAge())
+                .email(customer.getEmail())
+                .part(customer.getPart())
                 .build();
     }
 }

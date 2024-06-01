@@ -1,12 +1,12 @@
-package org.likelion.likelionassignmentcrud.customer.domain;
+package org.likelion.basic.customer.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.likelion.likelionassignmentcrud.customer.api.dto.request.CustomerUpdateReqDto;
-import org.likelion.likelionassignmentcrud.shop.domain.Shop;
+import org.likelion.basic.customer.api.dto.request.CustomerUpdateReqDto;
+import org.likelion.basic.shop.domain.Shop;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +22,7 @@ public class Customer {
     private Long customerId;
     private String name;
     private int age;
+    private String email;
 
     @Enumerated(EnumType.STRING)
     private Part part;
@@ -31,14 +32,16 @@ public class Customer {
 
     @Builder
 
-    public Customer(String name, int age, Part part) {
+    public Customer(String name, int age, String email, Part part) {
         this.name = name;
         this.age = age;
+        this.email = email;
         this.part = part;
     }
 
     public void update(CustomerUpdateReqDto customerUpdateReqDto) {
         this.name = customerUpdateReqDto.name();
         this.age = customerUpdateReqDto.age();
+        this.email = customerUpdateReqDto.email();
     }
 }

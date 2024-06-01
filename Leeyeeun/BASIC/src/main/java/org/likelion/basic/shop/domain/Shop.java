@@ -1,12 +1,12 @@
-package org.likelion.likelionassignmentcrud.shop.domain;
+package org.likelion.basic.shop.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.likelion.likelionassignmentcrud.customer.domain.Customer;
-import org.likelion.likelionassignmentcrud.shop.api.dto.request.ShopUpdateReqDto;
+import org.likelion.basic.customer.domain.Customer;
+import org.likelion.basic.shop.api.dto.request.ShopUpdateReqDto;
 
 @Entity
 @Getter

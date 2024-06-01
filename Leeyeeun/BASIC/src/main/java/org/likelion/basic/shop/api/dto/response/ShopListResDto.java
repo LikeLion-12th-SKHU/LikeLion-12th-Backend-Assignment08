@@ -1,8 +1,9 @@
-package org.likelion.likelionassignmentcrud.shop.api.dto.response;
+package org.likelion.basic.shop.api.dto.response;
 
 import lombok.Builder;
 
 import java.util.List;
+
 
 @Builder
 public record ShopListResDto(

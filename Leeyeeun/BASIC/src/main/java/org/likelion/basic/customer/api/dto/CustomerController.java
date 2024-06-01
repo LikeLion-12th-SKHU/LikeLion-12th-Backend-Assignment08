@@ -1,10 +1,17 @@
-package org.likelion.likelionassignmentcrud.customer.api.dto;
+package org.likelion.basic.customer.api.dto;
 
-import org.likelion.likelionassignmentcrud.customer.api.dto.request.CustomerSaveReqDto;
-import org.likelion.likelionassignmentcrud.customer.api.dto.request.CustomerUpdateReqDto;
-import org.likelion.likelionassignmentcrud.customer.api.dto.response.CustomerInfoResDto;
-import org.likelion.likelionassignmentcrud.customer.api.dto.response.CustomerListResDto;
-import org.likelion.likelionassignmentcrud.customer.application.CustomerService;
+import jakarta.validation.Valid;
+import org.likelion.basic.common.dto.BaseResponse;
+import org.likelion.basic.common.error.SuccessCode;
+import org.likelion.basic.customer.api.dto.request.CustomerSaveReqDto;
+import org.likelion.basic.customer.api.dto.request.CustomerUpdateReqDto;
+import org.likelion.basic.customer.api.dto.response.CustomerInfoResDto;
+import org.likelion.basic.customer.api.dto.response.CustomerListResDto;
+import org.likelion.basic.customer.application.CustomerService;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,36 +25,51 @@ public class CustomerController {
     public CustomerController (CustomerService customerService) { this.customerService = customerService; }
 
     @PostMapping("/save")
-    public ResponseEntity<String> customerSave(@RequestBody CustomerSaveReqDto customerSaveReqDto) {
-        customerService.customerSave(customerSaveReqDto);
-        return new ResponseEntity<>("고객 저장!", HttpStatus.CREATED);
+    @ResponseStatus(HttpStatus.CREATED)
+    public BaseResponse<CustomerInfoResDto> customerSave(@RequestBody @Valid CustomerSaveReqDto customerSaveReqDto) {
+        CustomerInfoResDto customerInfoResDto = customerService.customerSave(customerSaveReqDto);
+        return BaseResponse.success(SuccessCode.MEMBER_SAVE_SUCCESS, customerInfoResDto);
     }
 
     @GetMapping("/customers")
-    public ResponseEntity<CustomerListResDto> customerFindAll() {
-        CustomerListResDto customerListResDto = customerService.customerFindAll();
-
-
-        return new ResponseEntity<>(customerListResDto, HttpStatus.OK);
+    @ResponseStatus(HttpStatus.OK)
+    public BaseResponse<CustomerListResDto> customerFindAll(
+        @RequestParam(value = "page", defaultValue = "0") int page,
+        @RequestParam(value = "size", defaultValue = "10") int size,
+        @RequestParam(value = "sort", defaultValue = "memberId,asc") String sort)
+    {
+            Pageable pageable;
+            if (sort.isEmpty()) {
+                pageable = PageRequest.of(page, size, Sort.by("memberId").ascending());
+            } else {
+                String[] sortParams = sort.split(",");
+                Sort sortOrder = Sort.by(Sort.Direction.fromString(sortParams[1]), sortParams[0]);
+                pageable = PageRequest.of(page, size, sortOrder);
+            }
+        CustomerListResDto customerListResDto = customerService.customerFindAll(pageable);
+        return BaseResponse.success(SuccessCode.GET_SUCCESS, customerListResDto);
     }
 
     @GetMapping("/{customerId}")
-    public ResponseEntity<CustomerInfoResDto> customerFindOne(@PathVariable("customerId") Long customerId) {
+    @ResponseStatus(HttpStatus.OK)
+    public BaseResponse<CustomerInfoResDto> customerFindOne(@PathVariable("customerId") Long customerId) {
         CustomerInfoResDto customerInfoResDto = customerService.customerFindOne(customerId);
-        return new ResponseEntity<>(customerInfoResDto, HttpStatus.OK);
+        return BaseResponse.success(SuccessCode.GET_SUCCESS, customerInfoResDto);
     }
 
     @PatchMapping("/{customerId}")
-    public ResponseEntity<String> customerUpdate(@PathVariable("customerId") Long customerId,
-                                                 @RequestBody CustomerUpdateReqDto customerUpdateReqDto) {
-        customerService.customerUpdate(customerId, customerUpdateReqDto);
-        return new ResponseEntity<>("고객 수정", HttpStatus.OK);
+    @ResponseStatus(HttpStatus.OK)
+    public BaseResponse<CustomerInfoResDto> customerUpdate(@PathVariable("customerId") Long customerId,
+                                                 @RequestBody @Valid CustomerUpdateReqDto customerUpdateReqDto) {
+        CustomerInfoResDto customerInfoResDto = customerService.customerUpdate(customerId, customerUpdateReqDto);
+        return BaseResponse.success(SuccessCode.CUSTOMER_UPDATE_SUCCESS, customerInfoResDto);
     }
 
     @DeleteMapping("/{customerId}")
-    public ResponseEntity<String> customerDelete(@PathVariable("customerId") Long customerId) {
-        customerService.customerDelete(customerId);
-        return new ResponseEntity<>("고객 삭제", HttpStatus.OK);
+    @ResponseStatus(HttpStatus.OK)
+    public BaseResponse<CustomerInfoResDto> customerDelete(@PathVariable("customerId") Long customerId) {
+        CustomerInfoResDto customerInfoResDto = customerService.customerDelete(customerId);
+        return BaseResponse.success(SuccessCode.CUSTOMER_DELETE_SUCCESS, customerInfoResDto);
     }
 
 }
