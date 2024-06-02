@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -44,6 +45,11 @@ public class CustomExceptionAdvice {
 	public BaseResponse<?> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e){
 		log.error("Custom Exception: {}", e.getMessage(), e);
 		return BaseResponse.error(Error.PARAMETER_NOT_VALID_ERROR, Error.PARAMETER_NOT_VALID_ERROR.getMessage());
+	}
+
+	@ExceptionHandler(ValidationException.class)
+	public BaseResponse<?> handleValidationException(ValidationException e){
+		return BaseResponse.error(Error.VALIDATION_ERROR, Error.VALIDATION_ERROR.getMessage());
 	}
 
 	@ExceptionHandler(CustomException.class)
