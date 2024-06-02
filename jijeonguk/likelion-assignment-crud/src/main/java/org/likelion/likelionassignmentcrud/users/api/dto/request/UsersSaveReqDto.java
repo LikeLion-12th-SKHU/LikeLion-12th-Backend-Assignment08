@@ -9,7 +9,7 @@ public record UsersSaveReqDto(
         @Size(min = 2, max = 10, message = "2자 이상 10자 이하로 입력해주세요.")
         String name,
 
-        @NotNull(message = "핸드폰 번호를 필수로 입력해야 합니다.")
+        @NotBlank(message = "핸드폰 번호를 필수로 입력해야 합니다.")
         String phoneNumber,
 
         @Pattern(regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,6}$",

@@ -70,14 +70,14 @@ public class UsersController {
     public BaseResponse<UsersInfoResDto> usersUpdate(@PathVariable("usersId") Long usersId,
                                               @RequestBody @Valid UsersUpdateReqDto usersUpdateReqDto) {
 
-        final UsersInfoResDto usersInfoResDto = usersService.usersUpdate(usersId, usersUpdateReqDto);
+        UsersInfoResDto usersInfoResDto = usersService.usersUpdate(usersId, usersUpdateReqDto);
         return BaseResponse.success(SuccessCode.USERS_UPDATE_SUCCESS, usersInfoResDto);
     }
 
     @DeleteMapping("/{usersId}")
     @ResponseStatus(HttpStatus.OK)
-    public BaseResponse<UsersInfoResDto> usersDelete(@PathVariable("usersId") Long uesrsId) {
-        UsersInfoResDto usersInfoResDto = usersService.usersDelete(uesrsId);
+    public BaseResponse<UsersInfoResDto> usersDelete(@PathVariable("usersId") Long usersId) {
+        UsersInfoResDto usersInfoResDto = usersService.usersDelete(usersId);
         return BaseResponse.success(SuccessCode.USERS_DELETE_SUCCESS, usersInfoResDto);
 
     }

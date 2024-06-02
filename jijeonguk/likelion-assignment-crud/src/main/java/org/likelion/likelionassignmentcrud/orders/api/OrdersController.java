@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/orders")
+@RequestMapping("/order")
 public class OrdersController {
     private final OrdersService ordersService;
 
@@ -41,7 +41,7 @@ public class OrdersController {
     // 주문 Id에 따라 주문 한개 조회
     @GetMapping("/{ordersId}")
     @ResponseStatus(HttpStatus.OK)
-    public BaseResponse<OrdersInfoResDto> ordersFindById(@PathVariable("odersId") Long ordersId){
+    public BaseResponse<OrdersInfoResDto> ordersFindById(@PathVariable("ordersId") Long ordersId){
         OrdersInfoResDto ordersInfoResDto = ordersService.ordersFindById(ordersId);
         return BaseResponse.success(SuccessCode.GET_SUCCESS, ordersInfoResDto);
     }
