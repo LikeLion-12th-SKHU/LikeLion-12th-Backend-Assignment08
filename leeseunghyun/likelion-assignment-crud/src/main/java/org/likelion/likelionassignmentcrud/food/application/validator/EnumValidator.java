@@ -4,7 +4,7 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.likelion.likelionassignmentcrud.food.domain.Type;
 
-public abstract class EnumValidator implements ConstraintValidator<EnumValid, Type> {
+public class EnumValidator implements ConstraintValidator<EnumValid, Type> {
     private Class<Type> enumClass;
     @Override
     public boolean isValid(Type type, ConstraintValidatorContext context) {

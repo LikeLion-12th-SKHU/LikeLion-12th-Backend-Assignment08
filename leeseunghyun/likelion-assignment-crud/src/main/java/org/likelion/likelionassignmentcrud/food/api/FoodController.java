@@ -36,7 +36,7 @@ public class FoodController {
     public BaseResponse<FoodListResDto> foodFindAll(
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size,
-            @RequestParam(value = "sort", defaultValue = "memberId,asc") String sort
+            @RequestParam(value = "sort", defaultValue = "foodId,asc") String sort
     ) {
         Pageable pageable;
         if (sort.isEmpty()) {

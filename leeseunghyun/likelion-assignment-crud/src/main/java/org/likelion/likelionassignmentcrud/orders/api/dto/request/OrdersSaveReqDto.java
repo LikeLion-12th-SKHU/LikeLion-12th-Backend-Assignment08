@@ -9,7 +9,7 @@ public record OrdersSaveReqDto(
         String shippingAddress,
         @NotBlank(message = "결제수단을 필수로 입력해야합니다.")
         String paymentInfo,
-        @NotNull(message = "음식을 필수로 입력해야합니다.")
+
         Long foodId
 ) {
 }
