@@ -1,0 +1,9 @@
+POST http://localhost:8080/student/save
+Content-Type:application/json
+
+{
+  "name" : "류현우",
+  "age" : 20,
+  "studentId" : 202417037,
+  "stuGrade" : "FRESHMAN"
+}
