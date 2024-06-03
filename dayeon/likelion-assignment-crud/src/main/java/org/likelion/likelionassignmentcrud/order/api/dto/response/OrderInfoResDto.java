@@ -6,7 +6,7 @@ import org.likelion.likelionassignmentcrud.order.domain.Order;
 
 @Builder
 public record OrderInfoResDto(
-        Long date,
+        int date,
         Item item,
         int quantity,
         String member

@@ -18,7 +18,7 @@ public class Order {
     @Column(name = "order_id")
     private Long orderId;
 
-    private Long date; //날짜
+    private int date; //날짜
 
     @Enumerated(EnumType.STRING)
     private Item item; //품목
@@ -30,7 +30,7 @@ public class Order {
     private Member member;
 
     @Builder
-    public Order(Long date, Item item, int quantity, Member member) {
+    public Order(int date, Item item, int quantity, Member member) {
         this.date = date;
         this.item = item;
         this.quantity = quantity;
