@@ -1,6 +1,6 @@
 package org.likelion.likelioncrud.consumer.domain;
 
-import jakarta.persistence.*;
+import  jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

@@ -27,7 +27,7 @@ public class ConsumerController {
     }
 
     //멤버 저장
-    @PostMapping("/save")
+    @PostMapping("/consumers")
     @ResponseStatus(HttpStatus.CREATED)
     public BaseResponse<ConsumerInfoResDto> consumerSave(@RequestBody @Valid ConsumerSaveReqDto consumerSaveReqDto) {
         ConsumerInfoResDto consumerInfoResDto = consumerService.consumerSave(consumerSaveReqDto);
@@ -42,7 +42,7 @@ public class ConsumerController {
             @RequestParam(value = "size", defaultValue = "10") int size,
             @RequestParam(value = "sort", defaultValue = "consumerId,desc") String sort
     ) {
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable;
 
         if (sort.isEmpty()) {
             pageable = PageRequest.of(page, size, Sort.by("consumerId").ascending());
@@ -57,7 +57,7 @@ public class ConsumerController {
     }
 
     //멤버 id에 따라 멤버 한 개 조회
-    @GetMapping("/{consumerId}")
+    @GetMapping("/consumers/{consumerId}")
     @ResponseStatus(HttpStatus.OK)
     public BaseResponse<ConsumerInfoResDto> consumerFindOne(@PathVariable("consumerId") Long consumerId) {
         ConsumerInfoResDto consumerInfoResDto = consumerService.consumerFindOne(consumerId);
@@ -65,7 +65,7 @@ public class ConsumerController {
     }
 
     //수정
-    @PatchMapping("/{consumerId}")
+    @PatchMapping("/consumers/{consumerId}")
     @ResponseStatus(HttpStatus.OK)
     public BaseResponse<ConsumerInfoResDto> consumerUpdate(@PathVariable("consumerId") Long consumerId,
                                                            @RequestBody @Valid ConsumerUpdateReqDto consumerUpdateReqDto) {
@@ -74,7 +74,7 @@ public class ConsumerController {
     }
 
     //삭제
-    @DeleteMapping("/{consumerId}")
+    @DeleteMapping("/consumers/{consumerId}")
     public BaseResponse<ConsumerInfoResDto> consumerDelete(@PathVariable("consumerId") Long consumerId) {
         ConsumerInfoResDto consumerInfoResDto = consumerService.consumerDelete(consumerId);
         return BaseResponse.success(SuccessCode.CONSUMER_DELETE_SUCCESS, consumerInfoResDto);

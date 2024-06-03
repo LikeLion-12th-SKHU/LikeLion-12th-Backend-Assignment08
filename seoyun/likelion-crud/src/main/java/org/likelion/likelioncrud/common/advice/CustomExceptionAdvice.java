@@ -15,14 +15,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
-import jakarta.validation.ConstraintViolationException;
 
 @Slf4j
 @RestControllerAdvice
 @Component
 @RequiredArgsConstructor
-//
 public class CustomExceptionAdvice {
 
     /**
