@@ -19,7 +19,7 @@ public class PartValidator implements ConstraintValidator<PartValid, String> {
 	@Override
 	public boolean isValid(String part, ConstraintValidatorContext context) throws CustomException{
 		if (part == null){	//null 들어가는건 에바니까 처리해줌.
-			throw new CustomException(Error.VALIDATION_ERROR, "null 값은 들어갈 수 없습니다.");
+			throw new CustomException(Error.INTERNAL_SERVER_ERROR, "null 값은 들어갈 수 없습니다.");
 		}
 		Enum<?>[] enumConstants = enumClass.getEnumConstants();	//enum값들 싹 긁어오기.
 		for (Enum<?> enumConstant : enumConstants){

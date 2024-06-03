@@ -31,7 +31,7 @@ public class MemberController {
         return new ResponseEntity<>(memberListResDto, HttpStatus.OK);
     }
 
-    @PostMapping()
+    @PostMapping
        public ResponseEntity<String> memberSave(@RequestBody @Valid MemberSaveReqDto memberSaveReqDto) {
             memberService.memberSave(memberSaveReqDto);
             return new ResponseEntity<>("회원 저장!", HttpStatus.CREATED);
@@ -39,7 +39,7 @@ public class MemberController {
 
     @PatchMapping("/{memberId}")
     public ResponseEntity<String> memberUpdate(@PathVariable Long memberId,
-                                               @RequestBody MemberUpdateReqDto memberUpdateReqDto) {
+                                          @Valid @RequestBody MemberUpdateReqDto memberUpdateReqDto) {
         memberService.memberUpdate(memberId, memberUpdateReqDto);
         return new ResponseEntity<>("회원 수정!", HttpStatus.OK);
     }

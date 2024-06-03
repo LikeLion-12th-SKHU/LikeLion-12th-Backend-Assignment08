@@ -42,7 +42,7 @@ public class Member {
     public void update(MemberUpdateReqDto memberUpdateReqDto) {
         this.name = memberUpdateReqDto.name();
         this.age = memberUpdateReqDto.age();
-        this.part = memberUpdateReqDto.part();
+        this.part = Part.valueOf(memberUpdateReqDto.part().toUpperCase());
     }
 
 }

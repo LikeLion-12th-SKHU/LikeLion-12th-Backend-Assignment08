@@ -2,6 +2,7 @@ package org.likelion.likelionrecrud.exception;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.StringJoiner;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
@@ -48,8 +49,8 @@ public class CustomExceptionAdvice {
 	}
 
 	@ExceptionHandler(ValidationException.class)
-	public BaseResponse<?> handleValidationException(ValidationException e){
-		return BaseResponse.error(Error.VALIDATION_ERROR, Error.VALIDATION_ERROR.getMessage());
+	public BaseResponse<?> handleCustomJakartaValidationException(ValidationException e){ //내가 throw한 애들이 뜨도록
+		return BaseResponse.error(Error.VALIDATION_ERROR, String.valueOf(e.getCause()).split(": ")[1]);
 	}
 
 	@ExceptionHandler(CustomException.class)
@@ -67,11 +68,11 @@ public class CustomExceptionAdvice {
 	}
 
 	private String convertMapToString(Map<String, String> map){
-		StringBuilder sb = new StringBuilder();
+		StringJoiner sj = new StringJoiner(", ");
 		for(Map.Entry<String, String> entry : map.entrySet()){
-			sb.append(entry.getKey()).append(" : ").append(entry.getValue()).append(", ");
+			sj.add(entry.getKey()+" : "+entry.getValue());
 		}
-		return sb.substring(0,sb.length()-2);
+		return sj.toString();
 	}
 
 }
