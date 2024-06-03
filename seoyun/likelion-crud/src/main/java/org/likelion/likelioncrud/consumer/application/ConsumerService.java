@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.likelion.likelioncrud.common.error.ErrorCode;
 
-import java.awt.print.Pageable;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,7 +41,7 @@ public class ConsumerService {
 
     // Read All
     public ConsumerListResDto consumerFindAll(Pageable pageable) {
-        Page<Consumer> consumers = consumerRepository.findAll((org.springframework.data.domain.Pageable) pageable);
+        Page<Consumer> consumers = consumerRepository.findAll(pageable);
 
         List<ConsumerInfoResDto> consumerInfoResDtoList = consumers.stream()
                 .map(ConsumerInfoResDto::from)

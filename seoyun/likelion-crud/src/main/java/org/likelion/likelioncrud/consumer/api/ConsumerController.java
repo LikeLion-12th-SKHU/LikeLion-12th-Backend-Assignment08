@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/consumers")
 public class ConsumerController {
 
     private final ConsumerService consumerService;
@@ -52,7 +51,7 @@ public class ConsumerController {
             pageable = PageRequest.of(page, size, sortOrder);
         }
 
-        ConsumerListResDto consumerListResDto = consumerService.consumerFindAll((java.awt.print.Pageable) pageable);
+        ConsumerListResDto consumerListResDto = consumerService.consumerFindAll(pageable);
         return BaseResponse.success(SuccessCode.GET_SUCCESS, consumerListResDto);
     }
 
