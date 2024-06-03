@@ -8,12 +8,10 @@ import org.likelion.basic.customer.api.dto.request.CustomerUpdateReqDto;
 import org.likelion.basic.customer.api.dto.response.CustomerInfoResDto;
 import org.likelion.basic.customer.api.dto.response.CustomerListResDto;
 import org.likelion.basic.customer.application.CustomerService;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,7 +20,7 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
-    public CustomerController (CustomerService customerService) { this.customerService = customerService; }
+    public CustomerController(CustomerService customerService) { this.customerService = customerService; }
 
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
@@ -31,16 +29,16 @@ public class CustomerController {
         return BaseResponse.success(SuccessCode.MEMBER_SAVE_SUCCESS, customerInfoResDto);
     }
 
-    @GetMapping("/customers")
-    @ResponseStatus(HttpStatus.OK)
+    @GetMapping
+    @ResponseStatus
     public BaseResponse<CustomerListResDto> customerFindAll(
         @RequestParam(value = "page", defaultValue = "0") int page,
         @RequestParam(value = "size", defaultValue = "10") int size,
-        @RequestParam(value = "sort", defaultValue = "memberId,asc") String sort)
+        @RequestParam(value = "sort", defaultValue = "customerId,asc") String sort)
     {
             Pageable pageable;
             if (sort.isEmpty()) {
-                pageable = PageRequest.of(page, size, Sort.by("memberId").ascending());
+                pageable = PageRequest.of(page, size, Sort.by("customerId").ascending());
             } else {
                 String[] sortParams = sort.split(",");
                 Sort sortOrder = Sort.by(Sort.Direction.fromString(sortParams[1]), sortParams[0]);
