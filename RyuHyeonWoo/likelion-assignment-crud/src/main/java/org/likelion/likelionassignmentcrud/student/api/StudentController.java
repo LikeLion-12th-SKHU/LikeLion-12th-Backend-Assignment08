@@ -39,7 +39,7 @@ public class StudentController {
     @ResponseStatus(HttpStatus.OK)
     public BaseResponse<StudentListResDto> studentFindAll(
             @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "10") int size
+            @RequestParam(value = "size", defaultValue = "3") int size
     ) {
         Pageable pageable;
         pageable = PageRequest.of(page, size);
@@ -70,5 +70,7 @@ public class StudentController {
 
         return BaseResponse.success(SuccessCode.STUDENT_DELETE_SUCCESS, studentInfoResDto);
     }
+
+    
 
 }

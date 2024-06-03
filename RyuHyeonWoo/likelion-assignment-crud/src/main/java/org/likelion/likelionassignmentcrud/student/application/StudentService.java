@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.swing.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -47,11 +48,11 @@ public class StudentService {
     }
 
     public StudentListResDto studentFindAll(Pageable pageable) {
-        List<Student> student = studentRepository.findAll();
+        Page<Student> student = studentRepository.findAll(pageable);
 
         List<StudentInfoResDto> studentInfoResDtoList = student.stream()
                 .map(StudentInfoResDto::from)
-                .toList();
+                .collect(Collectors.toList());
 
         return StudentListResDto.from(studentInfoResDtoList);
     }
