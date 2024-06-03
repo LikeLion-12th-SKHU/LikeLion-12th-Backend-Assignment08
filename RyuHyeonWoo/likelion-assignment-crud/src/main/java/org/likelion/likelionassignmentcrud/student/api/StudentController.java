@@ -11,9 +11,7 @@ import org.likelion.likelionassignmentcrud.student.api.dto.response.StudentInfoR
 import org.likelion.likelionassignmentcrud.student.api.dto.response.StudentListResDto;
 import org.likelion.likelionassignmentcrud.student.application.StudentService;
 import org.likelion.likelionassignmentcrud.student.domain.Student;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Page;
+import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,10 +37,17 @@ public class StudentController {
     @ResponseStatus(HttpStatus.OK)
     public BaseResponse<StudentListResDto> studentFindAll(
             @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "3") int size
+            @RequestParam(value = "size", defaultValue = "3") int size,
+            @RequestParam(value = "sort", defaultValue = "studentId,asc") String sort
     ) {
         Pageable pageable;
-        pageable = PageRequest.of(page, size);
+        if (sort.isEmpty()) {
+            pageable = PageRequest.of(page, size, Sort.by("studentId").ascending());
+        } else {
+            String[] sortParams = sort.split(",");
+            Sort sortOrder = Sort.by(Sort.Direction.fromString(sortParams[1]), sortParams[0]);
+            pageable = PageRequest.of(page, size, sortOrder);
+        }
         StudentListResDto studentListResDto = studentService.studentFindAll(pageable);
 
         return BaseResponse.success(SuccessCode.GET_SUCCESS, studentListResDto);

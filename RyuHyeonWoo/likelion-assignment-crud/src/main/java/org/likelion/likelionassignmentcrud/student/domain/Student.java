@@ -31,9 +31,10 @@ public class Student {
     private List<Major> major = new ArrayList<>();
 
     @Builder
-    public Student(String name, int age, StudentGrade studentGrade) {
+    public Student(String name, int age, Long studentId, StudentGrade studentGrade) {
         this.name = name;
         this.age = age;
+        this.studentId = studentId;
         this.studentGrade = studentGrade;
     }
 

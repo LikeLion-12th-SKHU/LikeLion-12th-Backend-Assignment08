@@ -39,6 +39,7 @@ public class StudentService {
         Student student = Student.builder()
                 .name(studentSaveReqDto.name())
                 .age(studentSaveReqDto.age())
+                .studentId(studentSaveReqDto.studentId())
                 .studentGrade(studentSaveReqDto.stuGrade())
                 .build();
 
