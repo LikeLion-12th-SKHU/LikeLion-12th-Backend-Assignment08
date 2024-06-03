@@ -1,0 +1,8 @@
+POST http://localhost:8080/shop/save
+Content-Type: application/json
+
+{
+  "customerId": 1,
+  "title": "nail_shop",
+  "contents": "nail_art"
+}
