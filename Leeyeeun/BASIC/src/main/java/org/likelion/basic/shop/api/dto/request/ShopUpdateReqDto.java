@@ -1,5 +1,6 @@
 package org.likelion.basic.shop.api.dto.request;
 
+
 import jakarta.validation.constraints.NotBlank;
 
 public record ShopUpdateReqDto(
